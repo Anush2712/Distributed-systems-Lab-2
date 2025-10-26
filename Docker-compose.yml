@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  mongo1:
+    image: mongo:8.0
+    container_name: mongo1
+    hostname: mongo1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo1_data:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    networks:
+      - mongo-cluster
+
+  mongo2:
+    image: mongo:8.0
+    container_name: mongo2
+    hostname: mongo2
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo2_data:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    networks:
+      - mongo-cluster
+
+  mongo3:
+    image: mongo:8.0
+    container_name: mongo3
+    hostname: mongo3
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo3_data:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    networks:
+      - mongo-cluster
+
+volumes:
+  mongo1_data:
+  mongo2_data:
+  mongo3_data:
+
+networks:
+  mongo-cluster:
+    driver: bridge
